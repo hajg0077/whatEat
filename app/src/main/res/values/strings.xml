@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">what Eat</string>
+    <string name="menu">메뉴</string>
+    <string name="cookBook">만들 수 있는 요리</string>
+    <string name="myRefrigerator">나의 냉장고</string>
+    <string name="myInfo">나의 정보</string>
+    <string name="title">오늘 뭐 먹지?</string>
+    <string name="facebook_app_id">629126808225097</string>
+    <string name="fb_login_protocol_scheme">fb629126808225097</string>
+
+</resources>

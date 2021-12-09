@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/bottomNavigationView_mainCook"
+        android:enabled="true"
+        android:icon="@drawable/ic_meun"
+        android:title="@string/menu"/>
+
+    <item android:id="@+id/bottomNavigationView_cookBook"
+        android:enabled="true"
+        android:icon="@drawable/ic_cookbook"
+        android:title="@string/cookBook"/>
+
+    <item android:id="@+id/bottomNavigationView_refrigerator"
+        android:enabled="true"
+        android:icon="@drawable/ic_refrigerator"
+        android:title="@string/myRefrigerator"/>
+
+    <item android:id="@+id/bottomNavigationView_user"
+        android:enabled="true"
+        android:icon="@drawable/ic_user"
+        android:title="@string/myInfo"/>
+
+</menu>

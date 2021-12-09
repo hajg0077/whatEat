@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "914715284559",
+    "firebase_url": "https://whateat-e1fee-default-rtdb.firebaseio.com",
+    "project_id": "whateat-e1fee",
+    "storage_bucket": "whateat-e1fee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914715284559:android:f84cd03ed99ba4a453863a",
+        "android_client_info": {
+          "package_name": "com.example.whateat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914715284559-2v5ctk52m7jelah3f9h9i10tf43oescs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO6vT7BtrHbb_4_vudOmRjowzssqJWjFg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914715284559-2v5ctk52m7jelah3f9h9i10tf43oescs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
