@@ -10,15 +10,17 @@ import com.example.whateat.mainmenu.MainMenuFragment
 import com.example.whateat.refrigerator.RefrigeratorFragment
 import com.example.whateat.user.UserFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
+
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
 
 
         val cookBookFragment = CookBookFragment()

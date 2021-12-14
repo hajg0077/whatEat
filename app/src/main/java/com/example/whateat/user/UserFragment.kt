@@ -1,5 +1,6 @@
 package com.example.whateat.user
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -8,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.example.whateat.R
 import com.facebook.CallbackManager
@@ -28,6 +31,31 @@ class UserFragment: Fragment(R.layout.fragment_user) {
     private lateinit var auth: FirebaseAuth
     private lateinit var callbackManager: CallbackManager
     private lateinit var facebookLoginButton: LoginButton
+    private lateinit var contexts: Context
+    private lateinit var emailEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var loginButton: Button
+    private lateinit var signUpButton: Button
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_user, container, false)
+        if (container != null) {
+            contexts = container.getContext()
+        }
+        facebookLoginButton = view.findViewById(R.id.facebookLoginButton)
+        emailEditText = view.findViewById(R.id.emailEditText)
+        passwordEditText = view.findViewById(R.id.passwordEditText)
+        loginButton = view.findViewById(R.id.loginButton)
+        signUpButton = view.findViewById(R.id.signUpButton)
+
+
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +64,75 @@ class UserFragment: Fragment(R.layout.fragment_user) {
         auth = Firebase.auth
         callbackManager = CallbackManager.Factory.create()
 
+        initLoginButton()
+        initSignUpButton()
+        initEmailAndPasswordEditText()
         initFacebookLoginButton()
+    }
+
+    private fun initEmailAndPasswordEditText() {
+        val emailText = emailEditText
+        val passwordText = passwordEditText
+
+        emailText.addTextChangedListener {
+            val enable = emailEditText.text.isNotEmpty() && passwordText.text.isNotEmpty()
+            signUpButton.isEnabled = enable
+            loginButton.isEnabled = enable
+        }
+
+        passwordText.addTextChangedListener {
+            val enable = emailEditText.text.isNotEmpty() && passwordText.text.isNotEmpty()
+            signUpButton.isEnabled = enable
+            loginButton.isEnabled = enable
+        }
+    }
+
+    private fun initSignUpButton() {
+        val signUp = signUpButton
+        signUp.setOnClickListener {
+            val email = getInputEmail()
+            val password = getInputPassword()
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+                        Toast.makeText(context,"회원가입에 성공했습니다.",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context,"회원가입에 실패했습니다.",Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+
+        }
+    }
+
+    private fun initLoginButton() {
+        val login = loginButton
+        login.setOnClickListener {
+            val email = getInputEmail()
+            val password = getInputPassword()
+
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+                        activity?.supportFragmentManager        //액티비티에 finish
+                            ?.beginTransaction()
+                            ?.commit()
+                    } else {
+                        Toast.makeText(context,"이메일 또는 비밀번호를 확인해주세요.",Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+        }
+    }
+
+    private fun getInputEmail(): String{
+        return emailEditText.text.toString()
+    }
+
+    private fun getInputPassword(): String{
+        return passwordEditText.text.toString()
     }
 
 
@@ -45,17 +141,7 @@ class UserFragment: Fragment(R.layout.fragment_user) {
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_user, container, false)
-        facebookLoginButton = view.findViewById(R.id.facebookLoginButton)
 
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
 
 
     private fun initFacebookLoginButton(){
@@ -67,9 +153,13 @@ class UserFragment: Fragment(R.layout.fragment_user) {
                 auth.signInWithCredential(credential)
                     .addOnCompleteListener { task->
                             if (task.isSuccessful){
+                                activity?.supportFragmentManager
+                                    ?.beginTransaction()
+                                    ?.commit()
+                                Toast.makeText(context,"페이스북 로그인에 성공하셨습니다.",Toast.LENGTH_SHORT).show()
 
                             } else {
-
+                                Toast.makeText(context,"페이스북 로그인에 실패하셨습니다.",Toast.LENGTH_SHORT).show()
                             }
                     }
             }
@@ -79,7 +169,7 @@ class UserFragment: Fragment(R.layout.fragment_user) {
             }
 
             override fun onError(error: FacebookException?) {
-
+                Toast.makeText(context,"페이스북 로그인에 실패하셨습니다.",Toast.LENGTH_SHORT).show()
             }
 
         })

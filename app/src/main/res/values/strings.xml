@@ -7,5 +7,6 @@
     <string name="title">오늘 뭐 먹지?</string>
     <string name="facebook_app_id">629126808225097</string>
     <string name="fb_login_protocol_scheme">fb629126808225097</string>
+    <string name="login">로그인</string>
 
 </resources>
