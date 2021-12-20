@@ -6,4 +6,6 @@ data class MainMenuModel (
         val imageUrl: String,
 
 
-        )
+        ) {
+        constructor(): this("", "", "")
+}

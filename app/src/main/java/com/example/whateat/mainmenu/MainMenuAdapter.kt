@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.whateat.databinding.ItemMainmenuBinding
-import java.text.SimpleDateFormat
+
 
 
 class MainMenuAdapter: ListAdapter<MainMenuModel, MainMenuAdapter.ViewHolder>(diffUtil) {
@@ -16,8 +16,6 @@ class MainMenuAdapter: ListAdapter<MainMenuModel, MainMenuAdapter.ViewHolder>(di
     inner class ViewHolder(private val binding: ItemMainmenuBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(mainMenuModel: MainMenuModel){
-
-
                 binding.titleTextView.text = mainMenuModel.title
                 binding.ingredientsTextView.text = mainMenuModel.ingredients
 
@@ -38,6 +36,7 @@ class MainMenuAdapter: ListAdapter<MainMenuModel, MainMenuAdapter.ViewHolder>(di
         holder.bind(currentList[position])
     }
 
+    //필요 없을거라고 예상
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<MainMenuModel>(){
             override fun areItemsTheSame(oldItem: MainMenuModel, newItem: MainMenuModel): Boolean {
