@@ -1,10 +1,12 @@
 package com.example.whateat.mainmenu
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.whateat.DBKey.Companion.DB_MAINMENUS
+import com.example.whateat.DatailActivity
 import com.example.whateat.R
 import com.example.whateat.databinding.FragmentMainmenuBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -15,6 +17,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+
 
 class MainMenuFragment: Fragment(R.layout.fragment_mainmenu)  {
 
@@ -62,11 +65,15 @@ class MainMenuFragment: Fragment(R.layout.fragment_mainmenu)  {
 
         mainMenuList.clear()
         mainMenuDB = Firebase.database.reference.child(DB_MAINMENUS)
-        mainMenuAdapter = MainMenuAdapter()
+        mainMenuAdapter = MainMenuAdapter(itemClickedListener = {
+            val intent = Intent(activity, DatailActivity::class.java)
+            intent.putExtra("mainMenuModel", it)
+            startActivity(intent)
+        })
 
-        mainMenuAdapter.submitList(mutableListOf<MainMenuModel>().apply{
-            add(MainMenuModel("0", "aaaa", ""))
-            add(MainMenuModel("1", "bbbb", ""))
+        mainMenuAdapter.submitList(mutableListOf<MainMenuModel>().apply {
+            add(MainMenuModel("0", "김치", "","김치찌개","http","물", "김치", "양파"))
+            add(MainMenuModel("1", "된장, 호박", "","된장찌개","www", "물", "된장", "호박"))
         })
 
         fragmentMainMenuBinding.mainMenuRecyclerView.layoutManager = LinearLayoutManager(context)

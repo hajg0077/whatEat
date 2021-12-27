@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
+    //모델의 직렬화를 위하여 사용
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -67,6 +69,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage-ktx'
 
 
-    //facebook
+    //facebook로그인
     implementation 'com.facebook.android:facebook-login:8.2.0'
 }

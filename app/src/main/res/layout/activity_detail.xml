@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -22,6 +23,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="26dp"
                 android:maxLines="1"
                 android:textColor="@color/black"
                 android:textSize="24sp"
@@ -63,79 +65,32 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/titleTextView"
                 app:layout_constraintStart_toStartOf="@id/thumbnailImageView"
                 app:layout_constraintTop_toBottomOf="@id/thumbnailImageView" />
 
+
             <TextView
-                android:id="@+id/one"
+                android:id="@+id/ingredients"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="365dp"
-                android:text="@string/_1"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/thumbnailImageView"
+                android:layout_marginTop="10dp"
+                android:maxLines="1"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/ingredientsTextView"
+                app:layout_constraintStart_toStartOf="@id/ingredientsTextView"
                 app:layout_constraintTop_toBottomOf="@id/ingredientsTextView" />
 
             <TextView
-                android:id="@+id/ingredientsOne"
+                android:id="@+id/hyperlink"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/com_facebook_blue"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/one"
-                app:layout_constraintTop_toTopOf="@id/one" />
-
-            <TextView
-                android:id="@+id/two"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="365dp"
-                android:text="@string/_2"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/thumbnailImageView"
-                app:layout_constraintTop_toBottomOf="@id/one" />
-
-            <TextView
-                android:id="@+id/ingredientsTwo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/two"
-                app:layout_constraintTop_toTopOf="@id/two" />
-
-            <TextView
-                android:id="@+id/three"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="365dp"
-                android:text="@string/_3"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/thumbnailImageView"
-                app:layout_constraintTop_toBottomOf="@id/two" />
-
-            <TextView
-                android:id="@+id/ingredientsThree"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/three"
-                app:layout_constraintTop_toTopOf="@id/three" />
+                app:layout_constraintEnd_toEndOf="@id/ingredients"
+                app:layout_constraintStart_toStartOf="@id/ingredients"
+                app:layout_constraintTop_toBottomOf="@id/ingredients" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

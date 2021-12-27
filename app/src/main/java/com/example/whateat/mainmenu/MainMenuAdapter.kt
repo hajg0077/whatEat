@@ -11,13 +11,17 @@ import com.example.whateat.databinding.ItemMainmenuBinding
 
 
 
-class MainMenuAdapter: ListAdapter<MainMenuModel, MainMenuAdapter.ViewHolder>(diffUtil) {
+class MainMenuAdapter(private val itemClickedListener: (MainMenuModel) -> Unit): ListAdapter<MainMenuModel, MainMenuAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(private val binding: ItemMainmenuBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(mainMenuModel: MainMenuModel){
                 binding.titleTextView.text = mainMenuModel.title
                 binding.ingredientsTextView.text = mainMenuModel.ingredients
+
+                binding.root.setOnClickListener{
+                    itemClickedListener(mainMenuModel)
+                }
 
                 if (mainMenuModel.imageUrl.isNotEmpty()){
                     Glide.with(binding.thumbnailImageView)
