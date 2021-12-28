@@ -34,11 +34,10 @@ android {
         jvmTarget = '1.8'
     }
 
-    viewBinding {
-        enabled = true
-    }
-    dataBinding {
-        enabled = true
+    //버전에 따른 교체 (중요)
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
     }
 }
 

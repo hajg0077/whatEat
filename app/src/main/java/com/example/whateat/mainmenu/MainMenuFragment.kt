@@ -2,6 +2,7 @@ package com.example.whateat.mainmenu
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ class MainMenuFragment: Fragment(R.layout.fragment_mainmenu)  {
 
     private lateinit var mainMenuDB: DatabaseReference
     private lateinit var mainMenuAdapter: MainMenuAdapter
+    private val TAG = "MainMenuFragment"
 
     private val mainMenuList = mutableListOf<MainMenuModel>()
     private val listener = object : ChildEventListener{
@@ -62,10 +64,11 @@ class MainMenuFragment: Fragment(R.layout.fragment_mainmenu)  {
 
         val fragmentMainMenuBinding = FragmentMainmenuBinding.bind(view)
         binding = fragmentMainMenuBinding
-
+        Log.d(TAG, "로그인 프래그먼트 들어옴")
         mainMenuList.clear()
         mainMenuDB = Firebase.database.reference.child(DB_MAINMENUS)
         mainMenuAdapter = MainMenuAdapter(itemClickedListener = {
+            Log.d(TAG,"아이템 클릭함")
             val intent = Intent(activity, DatailActivity::class.java)
             intent.putExtra("mainMenuModel", it)
             startActivity(intent)

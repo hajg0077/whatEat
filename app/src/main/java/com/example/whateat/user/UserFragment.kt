@@ -36,6 +36,7 @@ class UserFragment: Fragment(R.layout.fragment_user) {
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var signUpButton: Button
+    private val TAG = "UserFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,6 +64,7 @@ class UserFragment: Fragment(R.layout.fragment_user) {
 
         auth = Firebase.auth
         callbackManager = CallbackManager.Factory.create()
+        Log.d(TAG, "로그인 프래그먼트 들어옴")
 
         initLoginButton()
         initSignUpButton()
@@ -89,10 +91,11 @@ class UserFragment: Fragment(R.layout.fragment_user) {
 
     private fun initSignUpButton() {
         val signUp = signUpButton
+        Log.d(TAG,"회원가입 버튼 생성")
         signUp.setOnClickListener {
             val email = getInputEmail()
             val password = getInputPassword()
-
+            Log.d(TAG,"회원가입 버튼 눌림")
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if(task.isSuccessful){
@@ -108,10 +111,11 @@ class UserFragment: Fragment(R.layout.fragment_user) {
 
     private fun initLoginButton() {
         val login = loginButton
+        Log.d(TAG,"로그인 버튼 생성")
         login.setOnClickListener {
             val email = getInputEmail()
             val password = getInputPassword()
-
+            Log.d(TAG,"로그인 버튼 눌림")
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if(task.isSuccessful){
@@ -145,6 +149,7 @@ class UserFragment: Fragment(R.layout.fragment_user) {
 
 
     private fun initFacebookLoginButton(){
+        Log.d(TAG,"페이스북 로그인 버튼 눌림")
         facebookLoginButton.setPermissions("email", "public_profile")
         facebookLoginButton.registerCallback(callbackManager, object: FacebookCallback<LoginResult>{
             override fun onSuccess(result: LoginResult) {
