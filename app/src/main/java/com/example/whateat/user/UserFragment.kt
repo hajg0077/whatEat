@@ -23,6 +23,7 @@ import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 
@@ -66,9 +67,47 @@ class UserFragment: Fragment(R.layout.fragment_user) {
         callbackManager = CallbackManager.Factory.create()
         Log.d(TAG, "로그인 프래그먼트 들어옴")
 
-        initLoginButton()
-        initSignUpButton()
-        initEmailAndPasswordEditText()
+
+        val email = emailEditText.text.toString()
+        val password = passwordEditText.text.toString()
+
+        //initEmailAndPasswordEditText()
+
+        signUpButton.setOnClickListener {
+            Log.d(TAG,"회원가입 버튼 눌림")
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+                        Toast.makeText(context,"회원가입에 성공했습니다.",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context,"회원가입에 실패했습니다.",Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+
+        }
+
+        loginButton.setOnClickListener {
+            Log.d(TAG,"로그인 버튼 눌림")
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+//                        activity?.supportFragmentManager        //액티비티에 finish
+//                            ?.beginTransaction()
+//                            ?.commit()
+                        Toast.makeText(context,"회원가입 완료",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context,"이메일 또는 비밀번호를 확인해주세요.",Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+        }
+
+
+
+
+
         initFacebookLoginButton()
     }
 
@@ -89,55 +128,6 @@ class UserFragment: Fragment(R.layout.fragment_user) {
         }
     }
 
-    private fun initSignUpButton() {
-        val signUp = signUpButton
-        Log.d(TAG,"회원가입 버튼 생성")
-        signUp.setOnClickListener {
-            val email = getInputEmail()
-            val password = getInputPassword()
-            Log.d(TAG,"회원가입 버튼 눌림")
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if(task.isSuccessful){
-                        Toast.makeText(context,"회원가입에 성공했습니다.",Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context,"회원가입에 실패했습니다.",Toast.LENGTH_SHORT).show()
-
-                    }
-                }
-
-        }
-    }
-
-    private fun initLoginButton() {
-        val login = loginButton
-        Log.d(TAG,"로그인 버튼 생성")
-        login.setOnClickListener {
-            val email = getInputEmail()
-            val password = getInputPassword()
-            Log.d(TAG,"로그인 버튼 눌림")
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if(task.isSuccessful){
-                        activity?.supportFragmentManager        //액티비티에 finish
-                            ?.beginTransaction()
-                            ?.commit()
-                    } else {
-                        Toast.makeText(context,"이메일 또는 비밀번호를 확인해주세요.",Toast.LENGTH_SHORT).show()
-                    }
-
-                }
-
-        }
-    }
-
-    private fun getInputEmail(): String{
-        return emailEditText.text.toString()
-    }
-
-    private fun getInputPassword(): String{
-        return passwordEditText.text.toString()
-    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -179,6 +169,22 @@ class UserFragment: Fragment(R.layout.fragment_user) {
 
         })
     }
+
+
+    private fun SuccessLogin() {
+        if(auth.currentUser == null){
+            Toast.makeText(context, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val userId = auth.currentUser?.uid.orEmpty()
+        val currentUserDB = Firebase.database.reference.child("User").child(userId)
+        val user = mutableMapOf<String, Any>()
+        user["userId"] = userId
+        currentUserDB.updateChildren(user)
+
+    }
+
 
 
 

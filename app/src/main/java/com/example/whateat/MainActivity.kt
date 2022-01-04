@@ -12,11 +12,13 @@ import com.example.whateat.mainmenu.MainMenuAdapter
 import com.example.whateat.mainmenu.MainMenuFragment
 import com.example.whateat.refrigerator.RefrigeratorFragment
 import com.example.whateat.user.UserFragment
+import com.example.whateat.user.changeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -31,7 +33,9 @@ class MainActivity : AppCompatActivity() {
         val cookBookFragment = CookBookFragment()
         val mainMenuFragment = MainMenuFragment()
         val refrigeratorFragment = RefrigeratorFragment()
-        val userFragment = UserFragment()
+
+        //이 부분 수정 요망!
+        val userFragment = changeFragment()
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 

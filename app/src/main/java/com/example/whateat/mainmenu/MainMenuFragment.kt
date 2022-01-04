@@ -26,6 +26,11 @@ class MainMenuFragment: Fragment(R.layout.fragment_mainmenu)  {
     private lateinit var mainMenuAdapter: MainMenuAdapter
     private val TAG = "MainMenuFragment"
 
+    private var binding: FragmentMainmenuBinding? = null
+    private val auth: FirebaseAuth by lazy{
+        Firebase.auth
+    }
+
     private val mainMenuList = mutableListOf<MainMenuModel>()
     private val listener = object : ChildEventListener{
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -54,17 +59,15 @@ class MainMenuFragment: Fragment(R.layout.fragment_mainmenu)  {
 
     }
 
-    private var binding: FragmentMainmenuBinding? = null
-    private val auth: FirebaseAuth by lazy{
-        Firebase.auth
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val fragmentMainMenuBinding = FragmentMainmenuBinding.bind(view)
         binding = fragmentMainMenuBinding
-        Log.d(TAG, "로그인 프래그먼트 들어옴")
+
+
+        Log.d(TAG, "메인메뉴 프래그먼트 들어옴")
         mainMenuList.clear()
         mainMenuDB = Firebase.database.reference.child(DB_MAINMENUS)
         mainMenuAdapter = MainMenuAdapter(itemClickedListener = {

@@ -5,12 +5,18 @@
     <string name="myRefrigerator">나의 냉장고</string>
     <string name="myInfo">나의 정보</string>
     <string name="title">오늘 뭐 먹지?</string>
+
+
     <string name="facebook_app_id">629126808225097</string>
     <string name="fb_login_protocol_scheme">fb629126808225097</string>
+
+
     <string name="login">로그인</string>
     <string name="ingredients">사용 재료</string>
     <string name="_1">1.</string>
     <string name="_2">2.</string>
     <string name="_3">3.</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 
 </resources>

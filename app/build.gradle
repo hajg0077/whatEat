@@ -61,13 +61,30 @@ dependencies {
 
 
     //firebase
-    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+    implementation platform('com.google.firebase:firebase-bom:29.0.2')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
 
-
-    //facebook로그인
+    //facebook 로그인
     implementation 'com.facebook.android:facebook-login:8.2.0'
+
+    //google 로그인
+    implementation 'com.google.android.gms:play-services-auth:20.0.0'
+
+
+    // Koin main features for Android
+    implementation "io.insert-koin:koin-android:3.1.4"
+// No more koin-android-viewmodel, koin-android-scope, koin-android-fragment
+
+// Java Compatibility
+    implementation "io.insert-koin:koin-android-compat:3.1.4"
+// Jetpack WorkManager
+    implementation "io.insert-koin:koin-androidx-workmanager:3.1.4"
+// Navigation Graph
+    implementation "io.insert-koin:koin-androidx-navigation:3.1.4"
+// Jetpack Compose
+    implementation "io.insert-koin:koin-androidx-compose:3.1.4"
+
 }
