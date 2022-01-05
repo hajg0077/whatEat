@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class changeFragment: Fragment(R.layout.fragment_change) {
+class userFragment: Fragment(R.layout.fragment_user) {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var logoutButton: Button
@@ -25,6 +25,13 @@ class changeFragment: Fragment(R.layout.fragment_change) {
         super.onViewCreated(view, savedInstanceState)
         auth = Firebase.auth
 
+        val user = Firebase.auth.currentUser
+        if (user != null){
+            userName.text = auth.currentUser?.displayName
+        } else{
+            userName.text = "이름"
+        }
+
         logoutButton.setOnClickListener {
             Firebase.auth.signOut()
         }
@@ -35,7 +42,7 @@ class changeFragment: Fragment(R.layout.fragment_change) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_change, container, false)
+        val view = inflater.inflate(R.layout.fragment_user, container, false)
         if (container != null) {
             contexts = container.getContext()
         }

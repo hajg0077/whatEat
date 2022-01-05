@@ -1,22 +1,16 @@
 package com.example.whateat
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.whateat.cookbook.CookBookFragment
 import com.example.whateat.databinding.ActivityMainBinding
-import com.example.whateat.mainmenu.MainMenuAdapter
 import com.example.whateat.mainmenu.MainMenuFragment
 import com.example.whateat.refrigerator.RefrigeratorFragment
-import com.example.whateat.user.UserFragment
-import com.example.whateat.user.changeFragment
+import com.example.whateat.user.userFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
@@ -35,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         val refrigeratorFragment = RefrigeratorFragment()
 
         //이 부분 수정 요망!
-        val userFragment = changeFragment()
+        val userFragment = userFragment()
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
@@ -67,6 +61,13 @@ class MainActivity : AppCompatActivity() {
         //val adapter = MainMenuAdapter()
         //binding.fragmentContainer.layoutManager = LinearLayoutManager(this)
         //binding.fragmentContainer.adapter = adapter
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (auth.currentUser == null){
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
 
 }

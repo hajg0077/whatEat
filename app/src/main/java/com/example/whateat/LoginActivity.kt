@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.whateat.databinding.ActivityLoginBinding
+import com.example.whateat.databinding.ActivityMainBinding
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -34,7 +36,7 @@ class LoginActivity: AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var googleLoginButton: LoginButton
+    private lateinit var googleLoginButton: SignInButton
 
     private lateinit var facebookLoginButton: LoginButton
     private lateinit var callbackManager: CallbackManager
@@ -45,8 +47,13 @@ class LoginActivity: AppCompatActivity() {
     private lateinit var signUpButton: Button
 
 
+
+    private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         auth = Firebase.auth
 
@@ -58,25 +65,27 @@ class LoginActivity: AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        emailText = findViewById(R.id.emailEditText)
-        passwordText = findViewById(R.id.passwordEditText)
-
-
         googleLoginButton = findViewById(R.id.googleLoginButton)
         googleLoginButton.setOnClickListener{
                 googleSignIn()
         }
 
+
+
         //테스트용 로그인
+        emailText = findViewById(R.id.emailEditText)
+        passwordText = findViewById(R.id.passwordEditText)
+
         loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
-            localSignIn(emailText.toString(), passwordText.toString())
+            localSignIn(emailText.text.toString(), passwordText.text.toString())
         }
 
         signUpButton = findViewById<Button>(R.id.signUpButton)
         signUpButton.setOnClickListener {
-            createLocalUser(emailText.toString(), passwordText.toString())
+            createLocalUser(emailText.text.toString(), passwordText.text.toString())
         }
+
 
         // Facebook 로그인 버튼 초기화
         callbackManager = CallbackManager.Factory.create()
@@ -125,27 +134,31 @@ class LoginActivity: AppCompatActivity() {
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
+
+    //구글 로그인
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // 로그인 성공, 로그인한 사용자 정보로 UI 업데이트
-                    Log.d(TAGg, "signInWithCredential:success")
+                    Log.d(TAGg, "구글로그인에 성공했습니다.")
                     val user = auth.currentUser
                     updateUI(user)
+                    finish()
                 } else {
                     // 로그인에 실패하면 사용자에게 메시지를 표시합니다.
-                    Log.w(TAGg, "signInWithCredential:failure", task.exception)
+                    Log.w(TAGg, "구글로그인에 실패했습니다.", task.exception)
                     updateUI(null)
                 }
             }
     }
-
     private fun googleSignIn() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
+
+
 
     private fun updateUI(user: FirebaseUser?) {
         //이곳에 사용자 정보 업데이트
@@ -166,12 +179,12 @@ class LoginActivity: AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // 로그인 성공, 로그인한 사용자 정보로 UI 업데이트
-                    Log.d(TAG, "createUserWithEmail:success")
+                    Log.d(TAG, "회원가입에 성공했습니다.")
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
                     // 로그인에 실패하면 사용자에게 메시지를 표시합니다.
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    Log.w(TAG, "회원가입에 실패했습니다.", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
                     updateUI(null)
@@ -179,17 +192,19 @@ class LoginActivity: AppCompatActivity() {
             }
     }
 
+    //로컬 로그인
     private fun localSignIn(email: String, password: String){
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // 로그인 성공, 로그인한 사용자 정보로 UI 업데이트
-                    Log.d(TAG, "signInWithEmail:success")
+                    Log.d(TAG, "로그인에 성공했습니다.")
                     val user = auth.currentUser
                     updateUI(user)
+                    finish()
                 } else {
                     // 로그인에 실패하면 사용자에게 메시지를 표시합니다.
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
+                    Log.w(TAG, "로그인에 실패했습니다.", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
                     updateUI(null)
@@ -198,7 +213,7 @@ class LoginActivity: AppCompatActivity() {
     }
 
 
-
+    //페이스북 로그인
     private fun handleFacebookAccessToken(token: AccessToken) {
         Log.d(TAGf, "handleFacebookAccessToken:$token")
 
@@ -207,12 +222,13 @@ class LoginActivity: AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // 로그인 성공, 로그인한 사용자 정보로 UI 업데이트
-                    Log.d(TAGf, "signInWithCredential:success")
+                    Log.d(TAGf, "페이스북 로그인에 성공했습니다.")
                     val user = auth.currentUser
                     updateUI(user)
+                    finish()
                 } else {
                     // 로그인에 실패하면 사용자에게 메시지를 표시합니다.
-                    Log.w(TAGf, "signInWithCredential:failure", task.exception)
+                    Log.w(TAGf, "페이스북 로그인에 실패했습니다.", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
                     updateUI(null)

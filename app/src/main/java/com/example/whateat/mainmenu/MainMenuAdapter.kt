@@ -29,7 +29,6 @@ class MainMenuAdapter(private val itemClickedListener: (MainMenuModel) -> Unit):
                             .into(binding.thumbnailImageView)
                 }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
