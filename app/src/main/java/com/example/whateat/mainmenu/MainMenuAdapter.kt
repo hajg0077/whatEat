@@ -28,6 +28,7 @@ class MainMenuAdapter(private val itemClickedListener: (MainMenuModel) -> Unit):
                             .load(mainMenuModel.imageUrl)
                             .into(binding.thumbnailImageView)
                 }
+
         }
     }
 

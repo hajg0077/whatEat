@@ -15,4 +15,6 @@ data class MainMenuModel (
         val ingredientTwo: String,
         val ingredientThree: String
 
-        ): Parcelable
+        ): Parcelable{
+                constructor(): this("","","","","","","","")
+        }

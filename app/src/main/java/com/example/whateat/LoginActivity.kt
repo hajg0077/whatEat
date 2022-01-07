@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class LoginActivity: AppCompatActivity() {
@@ -69,7 +70,6 @@ class LoginActivity: AppCompatActivity() {
         googleLoginButton.setOnClickListener{
                 googleSignIn()
         }
-
 
 
         //테스트용 로그인
@@ -118,6 +118,7 @@ class LoginActivity: AppCompatActivity() {
 
         // GoogleSignInApi.getSignInIntent(...)에서 인텐트를 실행하여 반환된 결과;
         if (requestCode == RC_SIGN_IN) {
+            Log.d(TAGg, "들어옴")
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 //Google 로그인에 성공했습니다. Firebase로 인증하세요.
@@ -149,7 +150,6 @@ class LoginActivity: AppCompatActivity() {
                 } else {
                     // 로그인에 실패하면 사용자에게 메시지를 표시합니다.
                     Log.w(TAGg, "구글로그인에 실패했습니다.", task.exception)
-                    updateUI(null)
                 }
             }
     }
@@ -158,11 +158,6 @@ class LoginActivity: AppCompatActivity() {
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-
-
-    private fun updateUI(user: FirebaseUser?) {
-        //이곳에 사용자 정보 업데이트
-    }
 
     companion object {
         private const val TAGg = "GoogleActivity"
@@ -180,14 +175,11 @@ class LoginActivity: AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 로그인 성공, 로그인한 사용자 정보로 UI 업데이트
                     Log.d(TAG, "회원가입에 성공했습니다.")
-                    val user = auth.currentUser
-                    updateUI(user)
                 } else {
                     // 로그인에 실패하면 사용자에게 메시지를 표시합니다.
                     Log.w(TAG, "회원가입에 실패했습니다.", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
-                    updateUI(null)
                 }
             }
     }
@@ -207,7 +199,6 @@ class LoginActivity: AppCompatActivity() {
                     Log.w(TAG, "로그인에 실패했습니다.", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
-                    updateUI(null)
                 }
             }
     }
@@ -231,9 +222,25 @@ class LoginActivity: AppCompatActivity() {
                     Log.w(TAGf, "페이스북 로그인에 실패했습니다.", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
-                    updateUI(null)
                 }
             }
+    }
+
+    //로그인 성공시
+    private fun updateUI(user: FirebaseUser?) {
+        //이곳에 사용자 정보 업데이트
+//        if (auth.currentUser == null){
+//            Toast.makeText(this, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//
+//        val userId = auth.currentUser?.uid.orEmpty()
+//        val currentUserDB = Firebase.database.reference.child("Users").child(userId)
+//        val user = mutableMapOf<String, Any>()
+//        user["userId"] = userId
+//        currentUserDB.updateChildren(user)
+//
+//        finish()
     }
 
 }
