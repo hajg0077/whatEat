@@ -18,5 +18,6 @@
     <string name="_3">3.</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="empty_result_text">검색 결과가 없습니다.</string>
 
 </resources>

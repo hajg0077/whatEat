@@ -1,13 +1,19 @@
 package com.example.whateat.mainmenu
 
+
+import android.content.ClipData.newIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.whateat.DBKey.Companion.DB_MENUS
-import com.example.whateat.DatailActivity
 import com.example.whateat.R
 import com.example.whateat.databinding.FragmentMainmenuBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -25,6 +31,7 @@ class MainMenuFragment: Fragment(R.layout.fragment_mainmenu)  {
     private lateinit var mainMenuDB: DatabaseReference
     private lateinit var mainMenuAdapter: MainMenuAdapter
     private val TAG = "MainMenuFragment"
+    var ct: Context? = null
 
     private var binding: FragmentMainmenuBinding? = null
     private val auth: FirebaseAuth by lazy{
@@ -47,6 +54,12 @@ class MainMenuFragment: Fragment(R.layout.fragment_mainmenu)  {
         override fun onCancelled(error: DatabaseError) { }
     }
 
+    private val startDetailForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result: ActivityResult ->
+            // 성공적으로 처리 완료 이후 동작
+
+        }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,36 +68,55 @@ class MainMenuFragment: Fragment(R.layout.fragment_mainmenu)  {
         binding = fragmentMainMenuBinding
 
         Log.d(TAG, "메인메뉴 프래그먼트 들어옴")
+
         mainMenuList.clear()
-
-
         mainMenuDB = Firebase.database.reference.child(DB_MENUS)
-        mainMenuAdapter = MainMenuAdapter(itemClickedListener = {
-            Log.d(TAG,"아이템 클릭함")
-            val intent = Intent(activity, DatailActivity::class.java)
-            intent.putExtra("mainMenuModel", it)
-            startActivity(intent)
-        })
 
 
 
+        //mainMenuAdapter = MainMenuAdapter( MainMenuModel, activity
+            //startDetailForResult.launch(
+                //DetailActivity.newIntent(requireContext(), it.title)
+            //)
+            //Log.d(TAG, "아이템 클릭")
+            //val intent = Intent(activity, DetailActivity::class.java)
+            //intent.putExtra("mainMenu", mainMenuDB)
+            //startActivity(intent)
+            //startActivity(Intent(activity, DetailActivity::class.java))
+        //)
 
-        //가상으로 넣어줌
-//        mainMenuAdapter.submitList(mutableListOf<MainMenuModel>().apply {
-//            add(MainMenuModel("0", "김치", "","김치찌개","http","물", "김치", "양파"))
-//            add(MainMenuModel("1", "된장, 호박", "","된장찌개","www", "물", "된장", "호박"))
+//        mainMenuAdapter.setOnItemClickListener(object : MainMenuAdapter.OnItemClickListener{
+//            override fun onItemClick(v: View, data: MainMenuModel, pos : Int) {
+//                Intent(activity, DetailActivity::class.java).apply {
+//                    putExtra("data", data)
+//                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                }.run { startActivity(this) }
+//            }
+//
 //        })
 
-        fragmentMainMenuBinding.mainMenuRecyclerView.layoutManager = LinearLayoutManager(context)
+        fragmentMainMenuBinding.mainMenuRecyclerView.layoutManager = LinearLayoutManager(this.context)
         fragmentMainMenuBinding.mainMenuRecyclerView.adapter = mainMenuAdapter
 
         mainMenuDB.addChildEventListener(listener)
 
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        val view: View = inflater.inflate(R.layout.fragment_mainmenu, container, false)
+
+        ct = container!!.context
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+
     override fun onResume() {
         super.onResume()
-
         mainMenuAdapter.notifyDataSetChanged()
     }
 

@@ -8,7 +8,9 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.fragment.app.Fragment
 import com.example.whateat.cookbook.CookBookFragment
 import com.example.whateat.databinding.ActivityMainBinding
+import com.example.whateat.mainmenu.MainMenuChangeFragment
 import com.example.whateat.mainmenu.MainMenuFragment
+import com.example.whateat.mainmenu.MainMenusFragment
 import com.example.whateat.refrigerator.RefrigeratorFragment
 import com.example.whateat.user.userFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -36,13 +38,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         val cookBookFragment = CookBookFragment()
-        val mainMenuFragment = MainMenuFragment()
-        val refrigeratorFragment = RefrigeratorFragment()
 
-        //이 부분 수정 요망!
+        //수정중
+        val mainMenuFragment = MainMenusFragment()
+        val refrigeratorFragment = RefrigeratorFragment()
         val userFragment = userFragment()
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -59,8 +59,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-
     }
 
     private fun replaceFragment(fragment: Fragment){
@@ -69,13 +67,6 @@ class MainActivity : AppCompatActivity() {
                     replace(R.id.fragmentContainer, fragment)
                     commit()
                 }
-    }
-
-    // 이것으로 어뎁터 연결
-    fun initMainMenu(){
-        //val adapter = MainMenuAdapter()
-        //binding.fragmentContainer.layoutManager = LinearLayoutManager(this)
-        //binding.fragmentContainer.adapter = adapter
     }
 
 

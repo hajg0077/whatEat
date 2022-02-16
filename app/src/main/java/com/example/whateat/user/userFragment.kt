@@ -42,7 +42,8 @@ class userFragment: Fragment(R.layout.fragment_user) {
             //facebook logOut
             LoginManager.getInstance().logOut()
             Log.d(TAG, "로그아웃 되었습니다.")
-
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
         }
         fragmentUserBinding.userNameTextView.setText(auth.currentUser?.displayName)
 
