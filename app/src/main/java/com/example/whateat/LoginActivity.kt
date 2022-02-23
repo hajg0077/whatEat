@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.whateat.databinding.ActivityLoginBinding
 import com.example.whateat.databinding.ActivityMainBinding
+import com.example.whateat.model.RefrigeratorDTO
+import com.example.whateat.model.UserDTO
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -29,12 +31,15 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.ktx.Firebase
 
 class LoginActivity: AppCompatActivity() {
 
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var googleLoginButton: SignInButton
@@ -57,6 +62,7 @@ class LoginActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
+        firestore = FirebaseFirestore.getInstance()
 
         // Google 로그인 구성
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -229,18 +235,37 @@ class LoginActivity: AppCompatActivity() {
     //로그인 성공시
     private fun updateUI(user: FirebaseUser?) {
         //이곳에 사용자 정보 업데이트
-//        if (auth.currentUser == null){
-//            Toast.makeText(this, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//
-//        val userId = auth.currentUser?.uid.orEmpty()
-//        val currentUserDB = Firebase.database.reference.child("Users").child(userId)
-//        val user = mutableMapOf<String, Any>()
-//        user["userId"] = userId
-//        currentUserDB.updateChildren(user)
-//
-//        finish()
-    }
+        //firebase user에 uid와 email 추가 할 예정
+        val data = hashMapOf(
+            "email" to user?.email,
+            "uid" to user?.uid,
+            "token" to false
+        )
+
+        firestore.collection("User").document("${user?.uid}")
+            .set(data)
+            .addOnSuccessListener { Log.d("Login", "성공적으로 데이터 저장") }
+            .addOnFailureListener { Log.d("Login", "데이터 저장 실패") }
+
+        var tokenMap = mutableMapOf<String, Any>()
+        tokenMap["token"] = true
+
+        if(!firestore.collection("User").document("${user?.uid}").get().equals("token")){
+            firestore.collection("Ingredient")
+                .addSnapshotListener{ querySnapshot, _ ->
+                    if (querySnapshot == null) return@addSnapshotListener
+
+                    for (snapshot in querySnapshot.documents){
+                        val item = snapshot.toObject(RefrigeratorDTO::class.java)
+                        if (item != null) {
+                            firestore.collection("User").document("${user?.uid}").collection("ingredient").document()
+                                .set(item)
+                        }
+                    }
+                    firestore.collection("User").document("${user?.uid}").update(tokenMap)
+                }
+             }
+        }
+
 
 }

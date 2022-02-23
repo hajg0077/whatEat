@@ -6,13 +6,15 @@ plugins {
 }
 
 android {
+    //원래 31이였음
     compileSdkVersion 31
     buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.example.whateat"
         minSdkVersion 23
-        targetSdkVersion 31
+        //원래 31이였음
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -36,7 +38,7 @@ android {
     //버전에 따른 교체 (중요)
     buildFeatures {
         viewBinding = true
-        dataBinding = true
+        //dataBinding = true
     }
 }
 
