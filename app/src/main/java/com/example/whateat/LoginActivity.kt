@@ -33,7 +33,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
+import org.koin.core.component.getScopeId
 
 class LoginActivity: AppCompatActivity() {
 
@@ -234,38 +236,41 @@ class LoginActivity: AppCompatActivity() {
 
     //로그인 성공시
     private fun updateUI(user: FirebaseUser?) {
-        //이곳에 사용자 정보 업데이트
-        //firebase user에 uid와 email 추가 할 예정
         val data = hashMapOf(
             "email" to user?.email,
             "uid" to user?.uid,
-            "token" to false
         )
 
         firestore.collection("User").document("${user?.uid}")
-            .set(data)
-            .addOnSuccessListener { Log.d("Login", "성공적으로 데이터 저장") }
-            .addOnFailureListener { Log.d("Login", "데이터 저장 실패") }
+            .set(data, SetOptions.merge())
 
         var tokenMap = mutableMapOf<String, Any>()
-        tokenMap["token"] = true
+        tokenMap["token"] = false
 
-        if(!firestore.collection("User").document("${user?.uid}").get().equals("token")){
-            firestore.collection("Ingredient")
-                .addSnapshotListener{ querySnapshot, _ ->
-                    if (querySnapshot == null) return@addSnapshotListener
+        firestore.collection("User").document("${user?.uid}").get()
+            .addOnSuccessListener { documentSnapshot ->
+                with(documentSnapshot){
+                    val a = getBoolean("token")
+                    if (a == null){
+                        firestore.collection("User").document("${user?.uid}")
+                            .set(tokenMap, SetOptions.merge())
 
-                    for (snapshot in querySnapshot.documents){
-                        val item = snapshot.toObject(RefrigeratorDTO::class.java)
-                        if (item != null) {
-                            firestore.collection("User").document("${user?.uid}").collection("ingredient").document()
-                                .set(item)
-                        }
+                        firestore.collection("Ingredient")
+                            .addSnapshotListener { querySnapshot, _ ->
+                                if (querySnapshot == null) return@addSnapshotListener
+
+                                for (snapshot in querySnapshot.documents) {
+                                    val item = snapshot.toObject(RefrigeratorDTO::class.java)
+                                    if (item != null) {
+                                        firestore.collection("User").document("${user?.uid}")
+                                            .collection("ingredient").document()
+                                            .set(item)
+                                        }
+                                }
+                                firestore.collection("User").document("${user?.uid}").set(loginData, SetOptions.merge())
+                            }
                     }
-                    firestore.collection("User").document("${user?.uid}").update(tokenMap)
                 }
-             }
-        }
-
-
+            }
+    }
 }
