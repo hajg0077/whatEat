@@ -241,6 +241,10 @@ class LoginActivity: AppCompatActivity() {
             "uid" to user?.uid,
         )
 
+        val loginData = hashMapOf(
+            "token" to true,
+        )
+
         firestore.collection("User").document("${user?.uid}")
             .set(data, SetOptions.merge())
 
@@ -263,9 +267,10 @@ class LoginActivity: AppCompatActivity() {
                                     val item = snapshot.toObject(RefrigeratorDTO::class.java)
                                     if (item != null) {
                                         firestore.collection("User").document("${user?.uid}")
-                                            .collection("ingredient").document()
+                                            .collection("ingredient").document("${item.ingredientName}")
                                             .set(item)
                                         }
+
                                 }
                                 firestore.collection("User").document("${user?.uid}").set(loginData, SetOptions.merge())
                             }

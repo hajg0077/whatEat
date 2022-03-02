@@ -1,6 +1,7 @@
 package com.example.whateat.refrigerator
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +12,17 @@ import com.example.whateat.R
 import com.example.whateat.model.MenuDTO
 import com.example.whateat.model.RefrigeratorDTO
 import com.example.whateat.model.UserDTO
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_mainmenu.view.*
 import kotlinx.android.synthetic.main.fragment_mainmenu.view.mainMenuRecyclerView
 import kotlinx.android.synthetic.main.fragment_refrigerator.view.*
+import kotlinx.android.synthetic.main.item_ingredient.*
 import kotlinx.android.synthetic.main.item_ingredient.view.*
 
 class RefrigeratorFragment: Fragment()  {
 
+    var auth: FirebaseAuth? = null
     var firestore: FirebaseFirestore? = null
 
     override fun onCreateView(
@@ -30,6 +34,7 @@ class RefrigeratorFragment: Fragment()  {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_refrigerator, container, false)
 
         firestore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         view.refrigerator_RecyclerView.adapter = RefrigeratorRecyclerViewAdapter()
         view.refrigerator_RecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -43,20 +48,24 @@ class RefrigeratorFragment: Fragment()  {
         var refrigeratorDTOs : ArrayList<RefrigeratorDTO> = arrayListOf()
         var ingredientList : ArrayList<String> = arrayListOf()
 
-        var userHaveDTOs : ArrayList<UserDTO> = arrayListOf()
+        var userHaveDTOs : ArrayList<UserDTO.Ingredient> = arrayListOf()
         var userIngredientList : ArrayList<String> = arrayListOf()
 
         init {
-            firestore?.collection("Ingredient")?.addSnapshotListener { querySnapshot, _ ->
-                refrigeratorDTOs.clear()
-                ingredientList.clear()
+            firestore!!
+                .collection("User")
+                .document("${auth!!.currentUser?.uid}")
+                .collection("ingredient")
+                .addSnapshotListener { querySnapshot, _ ->
+
+                userHaveDTOs.clear()
+                userIngredientList.clear()
 
                 if (querySnapshot == null) return@addSnapshotListener
 
                 for (snapshot in querySnapshot.documents) {
-                    var item = snapshot.toObject(RefrigeratorDTO::class.java)
-                    refrigeratorDTOs.add(item!!)
-                    ingredientList.add(snapshot.id)
+                    userHaveDTOs.add(snapshot.toObject(UserDTO.Ingredient::class.java)!!)
+                    userIngredientList.add(snapshot.id)
                 }
                 notifyDataSetChanged()
             }
@@ -72,19 +81,46 @@ class RefrigeratorFragment: Fragment()  {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var viewHolder = (holder as CustomViewHolder).itemView
 
-            viewHolder.checkbox.text = refrigeratorDTOs[position].ingredientName
+            viewHolder.checkbox.text = userHaveDTOs[position].ingredientName
 
-            if (refrigeratorDTOs[position].have == true){
-                !viewHolder.checkbox.isChecked
-            } else {
+            if (userHaveDTOs[position].have == true){
                 viewHolder.checkbox.isChecked
+            } else {
+                !viewHolder.checkbox.isChecked
             }
 
+            var trueHave = hashMapOf<String, Any>(
+                "have" to true
+            )
 
+            var falseHave = hashMapOf<String, Any>(
+                "have" to false
+            )
+
+
+            viewHolder.checkbox.setOnClickListener{
+                Log.d("${userHaveDTOs[position]}", "${userHaveDTOs[position].ingredientName}")
+                if (viewHolder.checkbox.isChecked){
+                    firestore!!
+                        .collection("User")
+                        .document("${auth!!.currentUser?.uid}")
+                        .collection("ingredient")
+                        .document("${userHaveDTOs[position].ingredientName}")
+                        .update(trueHave)
+                }else {
+                    firestore!!
+                        .collection("User")
+                        .document("${auth!!.currentUser?.uid}")
+                        .collection("ingredient")
+                        .document("${userHaveDTOs[position].ingredientName}")
+                        .update(falseHave)
+                }
+
+            }
         }
 
         override fun getItemCount(): Int {
-            return refrigeratorDTOs.size
+            return userHaveDTOs.size
         }
     }
 

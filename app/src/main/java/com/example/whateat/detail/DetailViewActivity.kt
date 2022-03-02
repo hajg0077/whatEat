@@ -27,8 +27,5 @@ class DetailViewActivity : AppCompatActivity() {
         Glide.with(thumbnailImageView).load(intent.getStringExtra("imageUrl")).into(thumbnailImageView)
         ingredients.text = intent.getStringExtra("ingredients")
         hyperlink.text = hy
-
-
-
     }
 }
