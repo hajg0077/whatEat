@@ -83,11 +83,7 @@ class RefrigeratorFragment: Fragment()  {
 
             viewHolder.checkbox.text = userHaveDTOs[position].ingredientName
 
-            if (userHaveDTOs[position].have == true){
-                viewHolder.checkbox.isChecked
-            } else {
-                !viewHolder.checkbox.isChecked
-            }
+            viewHolder.checkbox.isChecked = userHaveDTOs[position].have == true
 
             var trueHave = hashMapOf<String, Any>(
                 "have" to true
@@ -99,7 +95,6 @@ class RefrigeratorFragment: Fragment()  {
 
 
             viewHolder.checkbox.setOnClickListener{
-                Log.d("${userHaveDTOs[position]}", "${userHaveDTOs[position].ingredientName}")
                 if (viewHolder.checkbox.isChecked){
                     firestore!!
                         .collection("User")

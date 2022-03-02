@@ -58,7 +58,6 @@ class CookBookFragment: Fragment()  {
                 firestore?.collection("User")!!
                     .document("${auth!!.currentUser?.uid}")
                     .collection("ingredient").addSnapshotListener{ QuerySnapshot, _ ->
-                        Log.d("init", "들어옴")
 
                         if(QuerySnapshot == null) return@addSnapshotListener
 
