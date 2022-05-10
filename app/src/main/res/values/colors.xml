@@ -10,4 +10,7 @@
     <color name="gray_cc">#cccccc</color>
     <color name="gray_ec">#ececec</color>
     <color name="red">#FF0000</color>
+
+
+    <color name="toolbarColor">#00BCD4</color>
 </resources>

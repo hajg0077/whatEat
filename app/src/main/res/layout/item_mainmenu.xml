@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/thumbnailImageView"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginBottom="16dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,6 +32,7 @@
         app:layout_constraintStart_toEndOf="@+id/thumbnailImageView" />
 
 
+    <!--
     <TextView
         android:id="@+id/ingredientsTextView"
         app:layout_constraintStart_toStartOf="@id/titleTextView"
@@ -43,6 +44,7 @@
         tool:text="asdfasfsfdsafsdafsadfsadfsafsdfsdafadsfafd
                     sfdsafsdafsdfsfdsafsdafdsafsadfsdafdsafdsafsdafs
                     fdsafsadfdsafdsafsafsfsadfsdfsafs"/>
+                    -->
 
     <View
         android:layout_width="0dp"

@@ -8,5 +8,8 @@ data class MenuDTO(
     val hyperlink: String? = null,
     val ingredientOne: String? = null,
     val ingredientTwo: String? = null,
-    val ingredientThree: String? = null
+    val ingredientThree: String? = null,
+    val ingredientOnetoex: String? = null,
+    val ingredientTwotoex: String? = null,
+    val ingredientThreetoex: String? = null
 )

@@ -1,14 +1,24 @@
 <resources>
-    <string name="app_name">what Eat</string>
-    <string name="menu">메뉴</string>
-    <string name="cookBook">만들 수 있는 요리</string>
+    <string name="app_name">오늘 뭐 해먹지?</string>
+    <string name="menu">전체 메뉴</string>
+    <string name="cookBook">만들 수 있는 메뉴</string>
     <string name="myRefrigerator">나의 냉장고</string>
     <string name="myInfo">나의 정보</string>
     <string name="title">오늘 뭐 먹지?</string>
 
 
+    <!--
     <string name="facebook_app_id">629126808225097</string>
     <string name="fb_login_protocol_scheme">fb629126808225097</string>
+    -->
+
+
+    <string name="facebook_app_id">353411290159294</string>
+    <string name="fb_login_protocol_scheme">fb353411290159294</string>
+
+    <!--클라이언트 토큰을 56789자리에 대체해서 넣기 -->
+    <string name="facebook_client_token">4c989ab0228f5c3b556b01e061aaf5c5</string>
+
 
 
     <string name="login">로그인</string>
@@ -19,5 +29,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="empty_result_text">검색 결과가 없습니다.</string>
+    <string name="search">search</string>
+    <string name="logout">로그아웃</string>
 
 </resources>

@@ -2,13 +2,32 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <EditText
+        android:id="@+id/refrigerator_searchEditText"
+        android:paddingStart="12dp"
+        android:drawablePadding="6dp"
+        android:drawableStart="@drawable/ic_search_24"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:hint="재료 입력"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/refrigerator_RecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/refrigerator_searchEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

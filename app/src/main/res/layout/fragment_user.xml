@@ -10,14 +10,12 @@
         android:id="@+id/userImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/ic_person" />
-
-
-
+    
 
     <TextView
         android:id="@+id/userNameTextView"
@@ -55,9 +53,11 @@
         android:id="@+id/logoutButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="40dp"
+        android:layout_margin="50dp"
         android:backgroundTint="@color/red"
-        android:text="로그아웃"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="@string/logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/userImage" />
@@ -66,7 +66,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:text="@잦은 오류과 문제들은 개발자의 실력 미숙으로 고쳐나가겠습니다. "
+        android:paddingStart="5dp"
+        android:text="@잦은 오류과 문제들은 개발자의 실력 미숙으로 고쳐나가겠습니다."
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="@id/logoutButton"
         app:layout_constraintStart_toStartOf="@id/logoutButton"

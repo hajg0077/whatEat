@@ -35,7 +35,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
-import org.koin.core.component.getScopeId
+import kotlinx.android.synthetic.main.activity_login.view.*
+
 
 class LoginActivity: AppCompatActivity() {
 
@@ -48,11 +49,6 @@ class LoginActivity: AppCompatActivity() {
 
     private lateinit var facebookLoginButton: LoginButton
     private lateinit var callbackManager: CallbackManager
-
-    private lateinit var emailText: EditText
-    private lateinit var passwordText: EditText
-    private lateinit var loginButton: Button
-    private lateinit var signUpButton: Button
 
 
 
@@ -74,25 +70,27 @@ class LoginActivity: AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
+
         googleLoginButton = findViewById(R.id.googleLoginButton)
         googleLoginButton.setOnClickListener{
                 googleSignIn()
+
         }
 
 
         //테스트용 로그인
-        emailText = findViewById(R.id.emailEditText)
-        passwordText = findViewById(R.id.passwordEditText)
-
-        loginButton = findViewById<Button>(R.id.loginButton)
-        loginButton.setOnClickListener {
-            localSignIn(emailText.text.toString(), passwordText.text.toString())
-        }
-
-        signUpButton = findViewById<Button>(R.id.signUpButton)
-        signUpButton.setOnClickListener {
-            createLocalUser(emailText.text.toString(), passwordText.text.toString())
-        }
+//        emailText = findViewById(R.id.emailEditText)
+//        passwordText = findViewById(R.id.passwordEditText)
+//
+//        loginButton = findViewById<Button>(R.id.loginButton)
+//        loginButton.setOnClickListener {
+//            localSignIn(emailText.text.toString(), passwordText.text.toString())
+//        }
+//
+//        signUpButton = findViewById<Button>(R.id.signUpButton)
+//        signUpButton.setOnClickListener {
+//            createLocalUser(emailText.text.toString(), passwordText.text.toString())
+//        }
 
 
         // Facebook 로그인 버튼 초기화
@@ -101,21 +99,20 @@ class LoginActivity: AppCompatActivity() {
         facebookLoginButton = findViewById(R.id.facebookLoginButton)
         facebookLoginButton.setOnClickListener{
 
-
-            facebookLoginButton.setReadPermissions("email", "public_profile")
+            facebookLoginButton.setReadPermissions("email")
             facebookLoginButton.registerCallback(callbackManager, object :
                 FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult) {
-                    Log.d(TAG, "facebook:onSuccess:$loginResult")
+                    Log.d(TAGf, "facebook:onSuccess:$loginResult")
                     handleFacebookAccessToken(loginResult.accessToken)
                 }
 
                 override fun onCancel() {
-                    Log.d(TAG, "facebook:onCancel")
+                    Log.d(TAGf, "facebook:onCancel")
                 }
 
                 override fun onError(error: FacebookException) {
-                    Log.d(TAG, "facebook:onError", error)
+                    Log.d(TAGf, "facebook:onError", error)
                 }
             })
         }
@@ -137,10 +134,21 @@ class LoginActivity: AppCompatActivity() {
                 // Google 로그인에 실패했습니다. UI를 적절하게 업데이트하십시오.
                 Log.w(TAGg, "Google sign in failed", e)
             }
-        }
 
-        // 활동 결과를 Facebook SDK로 다시 전달
+//                val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data!!)
+//
+//                if (result != null) {
+//                    if (result.isSuccess){
+//                        Log.d("google", "result.isSuccess")
+//                        val account = result.signInAccount
+//                        firebaseAuthWithGoogle(account!!.idToken!!)
+//                    }
+//                }
+            }
+
+        //활동 결과를 Facebook SDK로 다시 전달  -- 와 1달만에 깃에서 다시 찾았다 항상 백업해두기 ********************************************************************************
         callbackManager.onActivityResult(requestCode, resultCode, data)
+
     }
 
 
@@ -176,40 +184,40 @@ class LoginActivity: AppCompatActivity() {
         private const val TAG = "Local"
     }
 
-    //로컬 아이디 생성
-    private fun createLocalUser(email: String, password: String){
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // 로그인 성공, 로그인한 사용자 정보로 UI 업데이트
-                    Log.d(TAG, "회원가입에 성공했습니다.")
-                } else {
-                    // 로그인에 실패하면 사용자에게 메시지를 표시합니다.
-                    Log.w(TAG, "회원가입에 실패했습니다.", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
-
-    //로컬 로그인
-    private fun localSignIn(email: String, password: String){
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // 로그인 성공, 로그인한 사용자 정보로 UI 업데이트
-                    Log.d(TAG, "로그인에 성공했습니다.")
-                    val user = auth.currentUser
-                    updateUI(user)
-                    finish()
-                } else {
-                    // 로그인에 실패하면 사용자에게 메시지를 표시합니다.
-                    Log.w(TAG, "로그인에 실패했습니다.", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
+//    //로컬 아이디 생성
+//    private fun createLocalUser(email: String, password: String){
+//        auth.createUserWithEmailAndPassword(email, password)
+//            .addOnCompleteListener(this) { task ->
+//                if (task.isSuccessful) {
+//                    // 로그인 성공, 로그인한 사용자 정보로 UI 업데이트
+//                    Log.d(TAG, "회원가입에 성공했습니다.")
+//                } else {
+//                    // 로그인에 실패하면 사용자에게 메시지를 표시합니다.
+//                    Log.w(TAG, "회원가입에 실패했습니다.", task.exception)
+//                    Toast.makeText(baseContext, "Authentication failed.",
+//                        Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//    }
+//
+//    //로컬 로그인
+//    private fun localSignIn(email: String, password: String){
+//        auth.signInWithEmailAndPassword(email, password)
+//            .addOnCompleteListener(this) { task ->
+//                if (task.isSuccessful) {
+//                    // 로그인 성공, 로그인한 사용자 정보로 UI 업데이트
+//                    Log.d(TAG, "로그인에 성공했습니다.")
+//                    val user = auth.currentUser
+//                    updateUI(user)
+//                    finish()
+//                } else {
+//                    // 로그인에 실패하면 사용자에게 메시지를 표시합니다.
+//                    Log.w(TAG, "로그인에 실패했습니다.", task.exception)
+//                    Toast.makeText(baseContext, "Authentication failed.",
+//                        Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//    }
 
 
     //페이스북 로그인
@@ -227,7 +235,7 @@ class LoginActivity: AppCompatActivity() {
                     finish()
                 } else {
                     // 로그인에 실패하면 사용자에게 메시지를 표시합니다.
-                    Log.w(TAGf, "페이스북 로그인에 실패했습니다.", task.exception)
+                    Log.d(TAGf, "페이스북 로그인에 실패했습니다.", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
                 }
@@ -254,6 +262,7 @@ class LoginActivity: AppCompatActivity() {
         firestore.collection("User").document("${user?.uid}").get()
             .addOnSuccessListener { documentSnapshot ->
                 with(documentSnapshot){
+                    //var count = 0
                     val a = getBoolean("token")
                     if (a == null){
                         firestore.collection("User").document("${user?.uid}")
@@ -269,13 +278,17 @@ class LoginActivity: AppCompatActivity() {
                                         firestore.collection("User").document("${user?.uid}")
                                             .collection("ingredient").document("${item.ingredientName}")
                                             .set(item)
+                                            //count++
+                                            //Log.d("카운터","$count")
                                         }
 
                                 }
-                                firestore.collection("User").document("${user?.uid}").set(loginData, SetOptions.merge())
+                                firestore.collection("User").document("${user?.uid}").set(loginData,
+                                    SetOptions.merge())
                             }
                     }
                 }
             }
     }
+
 }
