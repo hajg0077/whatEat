@@ -1,6 +1,5 @@
-package com.example.whateat.mainmenu
+package com.jegi.whateat.mainmenu
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -14,12 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.whateat.R
-import com.example.whateat.databinding.FragmentMainmenuBinding
-import com.example.whateat.detail.DetailViewActivity
-import com.example.whateat.model.MenuDTO
+import com.jegi.whateat.R
+import com.jegi.whateat.detail.DetailViewActivity
+import com.jegi.whateat.model.MenuDTO
 import com.google.firebase.firestore.FirebaseFirestore
-import io.grpc.internal.JsonUtil.getList
 import kotlinx.android.synthetic.main.fragment_mainmenu.*
 import kotlinx.android.synthetic.main.fragment_mainmenu.view.*
 import kotlinx.android.synthetic.main.item_mainmenu.view.*

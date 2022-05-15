@@ -1,4 +1,4 @@
-package com.example.whateat
+package com.jegi.whateat
 
 import org.junit.Test
 

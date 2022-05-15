@@ -1,18 +1,12 @@
-package com.example.whateat
+package com.jegi.whateat
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.whateat.databinding.ActivityLoginBinding
-import com.example.whateat.databinding.ActivityMainBinding
-import com.example.whateat.model.RefrigeratorDTO
-import com.example.whateat.model.UserDTO
+import com.jegi.whateat.databinding.ActivityLoginBinding
+import com.jegi.whateat.model.RefrigeratorDTO
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -21,6 +15,7 @@ import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
@@ -30,9 +25,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.view.*
@@ -48,8 +41,7 @@ class LoginActivity: AppCompatActivity() {
     private lateinit var googleLoginButton: SignInButton
 
     private lateinit var facebookLoginButton: LoginButton
-    private lateinit var callbackManager: CallbackManager
-
+    private var callbackManager: CallbackManager? = null
 
 
     private lateinit var binding: ActivityLoginBinding
@@ -74,8 +66,8 @@ class LoginActivity: AppCompatActivity() {
         googleLoginButton = findViewById(R.id.googleLoginButton)
         googleLoginButton.setOnClickListener{
                 googleSignIn()
-
         }
+
 
 
         //테스트용 로그인
@@ -122,39 +114,44 @@ class LoginActivity: AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         // GoogleSignInApi.getSignInIntent(...)에서 인텐트를 실행하여 반환된 결과;
+
         if (requestCode == RC_SIGN_IN) {
             Log.d(TAGg, "들어옴")
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                //Google 로그인에 성공했습니다. Firebase로 인증하세요.
-                val account = task.getResult(ApiException::class.java)!!
-                Log.d(TAGg, "firebaseAuthWithGoogle:" + account.id)
-                firebaseAuthWithGoogle(account.idToken!!)
-            } catch (e: ApiException) {
-                // Google 로그인에 실패했습니다. UI를 적절하게 업데이트하십시오.
-                Log.w(TAGg, "Google sign in failed", e)
+            //val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            var result = Auth.GoogleSignInApi.getSignInResultFromIntent(data!!)
+            if (result != null) {
+                Log.d(TAGg, " result 체크 완료")
+                if(result.isSuccess){
+                    var account = result.signInAccount
+                    //Second step
+                    if (account != null) {
+                        Log.d(TAGg, " account 체크 완료")
+                        firebaseAuthWithGoogle(account)
+                    }
+                }
             }
-
-//                val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data!!)
-//
-//                if (result != null) {
-//                    if (result.isSuccess){
-//                        Log.d("google", "result.isSuccess")
-//                        val account = result.signInAccount
-//                        firebaseAuthWithGoogle(account!!.idToken!!)
-//                    }
-//                }
+//            try {
+//                //Google 로그인에 성공했습니다. Firebase로 인증하세요.
+//                val account = task.getResult(ApiException::class.java)!!
+//                Log.d(TAGg, "firebaseAuthWithGoogle:" + account.id)
+//                firebaseAuthWithGoogle(account.idToken!!)
+//            } catch (e: ApiException) {
+//                // Google 로그인에 실패했습니다. UI를 적절하게 업데이트하십시오.
+//                Log.w(TAGg, "Google sign in failed", e)
+//                 }
             }
 
         //활동 결과를 Facebook SDK로 다시 전달  -- 와 1달만에 깃에서 다시 찾았다 항상 백업해두기 ********************************************************************************
-        callbackManager.onActivityResult(requestCode, resultCode, data)
+        callbackManager?.onActivityResult(requestCode, resultCode, data)
 
     }
 
 
     //구글 로그인
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
+    //private fun firebaseAuthWithGoogle(account: String) {
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        //val credential = GoogleAuthProvider.getCredential(account, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -169,7 +166,8 @@ class LoginActivity: AppCompatActivity() {
                 }
             }
     }
-    private fun googleSignIn() {
+
+    fun googleSignIn() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }

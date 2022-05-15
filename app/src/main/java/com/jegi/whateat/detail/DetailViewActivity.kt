@@ -1,16 +1,13 @@
-package com.example.whateat.detail
+package com.jegi.whateat.detail
 
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.View.VISIBLE
 import com.bumptech.glide.Glide
-import com.example.whateat.R
-import com.example.whateat.model.MenuDTO
-import com.google.firebase.auth.FirebaseAuth
+import com.jegi.whateat.R
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_detail_view.*
 

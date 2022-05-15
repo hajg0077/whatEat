@@ -1,25 +1,17 @@
-package com.example.whateat
+package com.jegi.whateat
 
 import android.content.Intent
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import androidx.fragment.app.Fragment
-import com.example.whateat.cookbook.CookBookFragment
-import com.example.whateat.databinding.ActivityMainBinding
-import com.example.whateat.mainmenu.MainMenusFragment
-import com.example.whateat.refrigerator.RefrigeratorFragment
-import com.example.whateat.user.userFragment
-import com.facebook.FacebookSdk
-import com.facebook.appevents.AppEventsLogger
+import com.jegi.whateat.cookbook.CookBookFragment
+import com.jegi.whateat.databinding.ActivityMainBinding
+import com.jegi.whateat.mainmenu.MainMenusFragment
+import com.jegi.whateat.refrigerator.RefrigeratorFragment
+import com.jegi.whateat.user.userFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 
 class MainActivity : AppCompatActivity() {

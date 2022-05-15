@@ -1,4 +1,4 @@
-package com.example.whateat.model
+package com.jegi.whateat.model
 
 data class UserDTO(
     var uid: String? = null,

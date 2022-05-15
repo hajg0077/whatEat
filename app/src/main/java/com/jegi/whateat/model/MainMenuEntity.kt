@@ -1,6 +1,4 @@
-package com.example.whateat.model
-
-import android.os.Parcelable
+package com.jegi.whateat.model
 
 data class MainMenuEntity (
     val title: String,

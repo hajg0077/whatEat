@@ -1,4 +1,4 @@
-package com.example.whateat
+package com.jegi.whateat
 
 class DBKey {
     companion object {

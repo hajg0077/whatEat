@@ -1,9 +1,8 @@
-package com.example.whateat.refrigerator
+package com.jegi.whateat.refrigerator
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +11,11 @@ import android.widget.Filterable
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.whateat.R
-import com.example.whateat.model.MenuDTO
-import com.example.whateat.model.RefrigeratorDTO
-import com.example.whateat.model.UserDTO
+import com.jegi.whateat.R
+import com.jegi.whateat.model.UserDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.auth.User
 import kotlinx.android.synthetic.main.fragment_mainmenu.view.*
-import kotlinx.android.synthetic.main.fragment_mainmenu.view.mainMenuRecyclerView
 import kotlinx.android.synthetic.main.fragment_refrigerator.view.*
 import kotlinx.android.synthetic.main.item_ingredient.*
 import kotlinx.android.synthetic.main.item_ingredient.view.*

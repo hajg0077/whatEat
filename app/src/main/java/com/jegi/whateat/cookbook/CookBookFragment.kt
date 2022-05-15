@@ -1,4 +1,4 @@
-package com.example.whateat.cookbook
+package com.jegi.whateat.cookbook
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,9 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.whateat.R
-import com.example.whateat.detail.DetailViewActivity
-import com.example.whateat.model.MenuDTO
+import com.jegi.whateat.R
+import com.jegi.whateat.detail.DetailViewActivity
+import com.jegi.whateat.model.MenuDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_cookbook.*

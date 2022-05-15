@@ -1,19 +1,16 @@
-package com.example.whateat.user
+package com.jegi.whateat.user
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.example.whateat.LoginActivity
-import com.example.whateat.MainActivity
-import com.example.whateat.R
-import com.example.whateat.databinding.FragmentUserBinding
+import com.jegi.whateat.LoginActivity
+import com.jegi.whateat.R
+import com.jegi.whateat.databinding.FragmentUserBinding
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
