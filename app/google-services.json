@@ -15,37 +15,13 @@
       },
       "oauth_client": [
         {
-          "client_id": "914715284559-2nbtd3r17pqgpvie8m2ocduunhhave8q.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.jegi.whateat",
-            "certificate_hash": "55dfebdff42887d70778977474d2d69e60cc48f0"
-          }
-        },
-        {
-          "client_id": "914715284559-oq6d1qasbl04scptlredg5596njmrst2.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.jegi.whateat",
-            "certificate_hash": "f7d1335215bf4b2e48447e5f3af0f6914cd79039"
-          }
-        },
-        {
-          "client_id": "914715284559-rvvs7g2hurqhslrtcdjn1ihqjm5msah6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.jegi.whateat",
-            "certificate_hash": "7d560b6219cfe15705aa4d1178c1cf9a4566aeb8"
-          }
-        },
-        {
           "client_id": "914715284559-2v5ctk52m7jelah3f9h9i10tf43oescs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBO6vT7BtrHbb_4_vudOmRjowzssqJWjFg"
+          "current_key": "AIzaSyCtLLbiX24DgUr789IGX33TYTWcLXxLwc0"
         }
       ],
       "services": {
